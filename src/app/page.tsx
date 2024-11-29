@@ -3,16 +3,16 @@ import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import rehypePrism from "rehype-prism";
 import "prismjs/themes/prism-okaidia.css"; // Dark theme
-
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-const genAI = new GoogleGenerativeAI(process.env.NEXT_AI_API_KEY);
 import { PlaceholdersAndVanishInput } from "@/components/placeholder";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export default function Home() {
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
   const [query, setQuery] = useState("");
   const [result, setResult] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const genAI = new GoogleGenerativeAI(process.env.NEXT_AI_API_KEY || "");
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   const placeholders = [
     "Why did the computer go to therapy?",
