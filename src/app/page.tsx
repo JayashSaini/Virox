@@ -4,7 +4,23 @@ import ReactMarkdown from "react-markdown";
 import rehypePrism from "rehype-prism";
 import "prismjs/themes/prism-okaidia.css"; // Dark theme
 import { PlaceholdersAndVanishInput } from "@/components/placeholder";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import {
+  GoogleGenerativeAI,
+  GenerateContentResult,
+} from "@google/generative-ai";
+
+// Define the expected structure of response
+interface GenerativeResponse {
+  candidates:
+    | {
+        content: {
+          parts: {
+            text: string;
+          }[];
+        };
+      }[]
+    | undefined; // Handle the case where candidates might be undefined
+}
 
 export default function Home() {
   const [query, setQuery] = useState("");
@@ -31,9 +47,15 @@ export default function Home() {
     setIsLoading(true);
     model
       .generateContent([query])
-      .then(({ response }: any) =>
-        setResult(response.candidates[0].content.parts[0].text)
-      )
+      .then((result: GenerateContentResult) => {
+        const response = result.response as GenerativeResponse;
+        // Ensure that candidates is not undefined and has content
+        if (response?.candidates?.[0]?.content?.parts?.[0]?.text) {
+          setResult(response.candidates[0].content.parts[0].text);
+        } else {
+          setResult("No content generated.");
+        }
+      })
       .catch((e: Error) =>
         alert(e.message || "Error occurred while generating content!")
       )
