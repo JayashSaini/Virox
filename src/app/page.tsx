@@ -9,6 +9,9 @@ import {
   GenerateContentResult,
 } from "@google/generative-ai";
 
+const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_AI_API_KEY || "");
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
 // Define the expected structure of response
 interface GenerativeResponse {
   candidates:
@@ -26,9 +29,6 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [result, setResult] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-
-  const genAI = new GoogleGenerativeAI(process.env.NEXT_AI_API_KEY || "");
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   const placeholders = [
     "Why did the computer go to therapy?",
