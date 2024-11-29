@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+pre {
+  background-color: #1e1e1e; /* Dark background */
+  color: #dcdcdc; /* Light text */
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto; /* Handle overflow for large code blocks */
+}
+
+code {
+  font-family: "Fira Code", monospace; /* Use a developer-friendly font */
+}
